@@ -7,6 +7,12 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import EditIcon from '@material-ui/icons/Edit'
+import { green } from '@material-ui/core/colors'
+import Tooltip from '@material-ui/core/Tooltip'
+
 
 const useStyles = makeStyles({
   table: {
@@ -47,7 +53,18 @@ export default function PlayerTable() {
               </TableCell>
               <TableCell align="right">{row.warband}</TableCell>
               <TableCell align="right">{row.status}</TableCell>
-              <TableCell align="right">Action</TableCell>
+              <TableCell align="right">
+                <Tooltip title="Редактировать">
+                  <IconButton aria-label="delete">
+                    <EditIcon style={{ color: green[500] }} fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Удалить">
+                  <IconButton color="secondary" aria-label="delete">
+                    <DeleteForeverIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
