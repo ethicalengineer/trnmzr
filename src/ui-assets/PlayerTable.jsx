@@ -12,33 +12,48 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import EditIcon from '@material-ui/icons/Edit'
 import { green } from '@material-ui/core/colors'
 import Tooltip from '@material-ui/core/Tooltip'
+import Chip from '@material-ui/core/Chip'
 
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  tableWrapper: {
+    marginBottom: 50,
+  }
 })
 
-function createData(playerName, warband, status) {
-  return { playerName, warband, status }
+function createData(id, playerName, warband, status) {
+  return { id, playerName, warband, status }
 }
 
 const rows = [
-  createData('Роман Евстегнеев', 'Ylthari\'s Guardians', 'Active'),
-  createData('Стенли Кубриков', 'Mollog\'s Mob', 'Active'),
-  createData('Владимир Владимирович', 'Skaeth\'s Wild Hunt', 'Active'),
-  createData('Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('1','Роман Евстегнеев', 'Ylthari\'s Guardians', 'Active'),
+  createData('2','Стенли Кубриков', 'Mollog\'s Mob', 'Active'),
+  createData('3','Владимир Владимирович', 'Skaeth\'s Wild Hunt', 'Active'),
+  createData('4','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('5','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('6','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('7','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('8','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('9','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('10','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('11','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('12','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('13','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
+  createData('14','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
 ]
 
 export default function PlayerTable() {
   const classes = useStyles()
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tableWrapper} component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
+            <TableCell>№</TableCell>
             <TableCell>Имя игрока</TableCell>
             <TableCell align="right">Банда</TableCell>
             <TableCell align="right">Статус</TableCell>
@@ -49,10 +64,13 @@ export default function PlayerTable() {
           {rows.map((row) => (
             <TableRow key={row.playerName}>
               <TableCell component="th" scope="row">
+                {row.id}
+              </TableCell>
+              <TableCell component="th" scope="row">
                 {row.playerName}
               </TableCell>
               <TableCell align="right">{row.warband}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
+              <TableCell align="right">{row.status == 'Active' ? <Chip color="primary" label="Активен" /> : <Chip color="secondary" label="Выбыл" />}</TableCell>
               <TableCell align="right">
                 <Tooltip title="Редактировать">
                   <IconButton aria-label="delete">

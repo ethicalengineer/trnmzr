@@ -6,11 +6,10 @@ import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Box from '@material-ui/core/Box'
-import PlayerTable from './PlayerTable'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
-  
+
   return (
     <div
       role="tabpanel"
@@ -34,12 +33,12 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 }
   
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
+// function a11yProps(index) {
+//   return {
+//     id: `simple-tab-${index}`,
+//     'aria-controls': `simple-tabpanel-${index}`,
+//   }
+// }
   
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,8 +47,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
   
-export default function RoundMenu() {
+export default function TopMenu(props) {
   const classes = useStyles()
+  console.log(props)
   const [value, setValue] = React.useState(0)
   
   const handleChange = (event, newValue) => {
@@ -62,15 +62,14 @@ export default function RoundMenu() {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="simple tabs example"
         >
-          <Tab label="Игроки" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Игроки" />
+          <Tab label="Item Two" />
+          <Tab label="Item Three" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <PlayerTable/>
+        {props.children}
       </TabPanel>
       <TabPanel value={value} index={1}>
           Item Two
@@ -80,4 +79,8 @@ export default function RoundMenu() {
       </TabPanel>
     </div>
   )
+}
+
+TopMenu.propTypes = {
+  children: PropTypes.node.isRequired,
 }
