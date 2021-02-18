@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import PlayerTable from '../ui-assets/PlayerTable'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -30,11 +30,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function PlayerPage() {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
-  const [edit, forceEdit] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [players, setPlayers] = useState([])
 
-  const handleOpen = edit => {
-    edit ? forceEdit(true) : forceEdit (false)
+  const handleOpen = () => {
     setOpen(true)
   }
     
@@ -42,9 +41,14 @@ export default function PlayerPage() {
     setOpen(false)
   }
 
+  const addPlayer = player => {
+    setPlayers([...players, player])
+    handleClose()
+  }
+
   return (
     <React.Fragment>
-      <PlayerTable/>
+      <PlayerTable players={players}/>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
           <Button
@@ -62,11 +66,12 @@ export default function PlayerPage() {
       <Modal
         open={open}
         onClose={handleClose}
+        disableBackdropClick={true}
         className={classes.modal}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <UserForm />
+        <UserForm addPlayer={addPlayer} />
       </Modal>
     </React.Fragment>
   )

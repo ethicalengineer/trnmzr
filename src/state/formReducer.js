@@ -9,15 +9,15 @@ import {
 export default function formReducer(state, action) {
   switch (action.type) {
     case CHANGE_NAME:
-      return { name: action.payload }
+      return { ...state, name: action.payload }
     case CHANGE_SURNAME:
-      return { surname: action.payload }
+      return { ...state, surname: action.payload }
     case CHANGE_NICKNAME:
-      return { nickname: action.payload }
+      return { ...state, nickname: action.payload }
     case CHANGE_FACTION:
-      return { faction: action.payload }
+      return { ...state, faction: action.payload }
     case CHANGE_STATE:
-      return { state: action.payload }
+      return { ...state, state: action.payload }
     default:
       throw new Error()
   }

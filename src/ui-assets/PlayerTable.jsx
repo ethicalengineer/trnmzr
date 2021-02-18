@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -14,7 +15,6 @@ import { green } from '@material-ui/core/colors'
 import Tooltip from '@material-ui/core/Tooltip'
 import Chip from '@material-ui/core/Chip'
 
-
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -24,30 +24,8 @@ const useStyles = makeStyles({
   }
 })
 
-function createData(id, playerName, warband, status) {
-  return { id, playerName, warband, status }
-}
-
-const rows = [
-  createData('1','Роман Евстегнеев', 'Ylthari\'s Guardians', 'Active'),
-  createData('2','Стенли Кубриков', 'Mollog\'s Mob', 'Active'),
-  createData('3','Владимир Владимирович', 'Skaeth\'s Wild Hunt', 'Active'),
-  createData('4','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('5','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('6','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('7','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('8','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('9','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('10','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('11','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('12','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('13','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-  createData('14','Федор Петин', 'Thorns of the Briar Queen', 'Dropped'),
-]
-
-export default function PlayerTable() {
+export default function PlayerTable(props) {
   const classes = useStyles()
-
   return (
     <TableContainer className={classes.tableWrapper} component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
@@ -61,16 +39,16 @@ export default function PlayerTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.playerName}>
+          {props.players.map((player) => (
+            <TableRow key={player.id}>
               <TableCell component="th" scope="row">
-                {row.id}
+                {player.id}
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.playerName}
+                {player.name}
               </TableCell>
-              <TableCell align="right">{row.warband}</TableCell>
-              <TableCell align="right">{row.status == 'Active' ? <Chip color="primary" label="Активен" /> : <Chip color="secondary" label="Выбыл" />}</TableCell>
+              <TableCell align="right">{player.faction}</TableCell>
+              <TableCell align="right">{player.state ? <Chip color="primary" label="Активен" /> : <Chip color="secondary" label="Выбыл" />}</TableCell>
               <TableCell align="right">
                 <Tooltip title="Редактировать">
                   <IconButton aria-label="delete">
@@ -89,4 +67,8 @@ export default function PlayerTable() {
       </Table>
     </TableContainer>
   )
+}
+
+PlayerTable.propTypes = {
+  players: PropTypes.arrayOf(PropTypes.object)
 }
