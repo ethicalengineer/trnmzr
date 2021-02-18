@@ -1,3 +1,8 @@
 export const ADD_PLAYER = 'add-player'
 export const EDIT_PLAYER = 'edit-player'
 export const DELETE_PLAYER = 'delete-player'
+export const CHANGE_NAME = 'change-name'
+export const CHANGE_SURNAME = 'change-surname'
+export const CHANGE_NICKNAME = 'change-nickname'
+export const CHANGE_FACTION = 'change-faction'
+export const CHANGE_STATE = 'change-state'

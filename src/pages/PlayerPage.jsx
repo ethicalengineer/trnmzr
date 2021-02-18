@@ -5,9 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import Modal from '@material-ui/core/Modal'
-import TextField from '@material-ui/core/TextField'
 import AppBar from '@material-ui/core/AppBar'
-import factions from '../data/factions.json'
+import UserForm from '../ui-assets/UserForm'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -32,17 +31,15 @@ const useStyles = makeStyles(theme => ({
 export default function PlayerPage() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
+  const [edit, forceEdit] = React.useState(false)
 
-  const handleOpen = () => {
+  const handleOpen = edit => {
+    edit ? forceEdit(true) : forceEdit (false)
     setOpen(true)
   }
     
   const handleClose = () => {
     setOpen(false)
-  }
-
-  const factionSelectHandler = () => {
-    return false
   }
 
   return (
@@ -69,37 +66,7 @@ export default function PlayerPage() {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div className={classes.paper}>
-          <form className={classes.root} noValidate autoComplete="off">
-            <div>
-              <TextField id="outlined-basic" label="Имя игрока" variant="outlined" />
-            </div>
-            <div>
-              <TextField id="outlined-basic" label="Фамилия игрока" variant="outlined" />
-            </div>
-            <div>
-              <TextField id="outlined-basic" label="Псевдоним" variant="outlined" />
-            </div>
-            <div>
-              <TextField
-                id="outlined-select-currency-native"
-                select
-                label="Фракция"
-                onChange={factionSelectHandler}
-                SelectProps={{
-                  native: true,
-                }}
-                variant="outlined"
-              >
-                {factions.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.value}
-                  </option>
-                ))}
-              </TextField>
-            </div>
-          </form>
-        </div>
+        <UserForm />
       </Modal>
     </React.Fragment>
   )
