@@ -1,10 +1,16 @@
 [{
+    "id": 0,
+    "value": "Не выбрана"
+},
+{
     "id": 1,
-    "value": "Garrek's Reavers"
+    "value": "Garrek's Reavers",
+    "icon": "garreks-reavers.png"
 },
 {
     "id": 2,
-    "value": "Steelheart's Champions"
+    "value": "Steelheart's Champions",
+    "icon": "steelhearts-champions.png"
 },
 {
     "id": 3,
@@ -12,7 +18,8 @@
 },
 {
     "id": 4,
-    "value": "Ironskull's Boyz"
+    "value": "Ironskull's Boyz",
+    "icon": "ironskulls-boyz.png"
 },
 {
     "id": 5,

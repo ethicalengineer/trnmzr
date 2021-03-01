@@ -4,6 +4,7 @@ import {
   CHANGE_NICKNAME,
   CHANGE_FACTION,
   CHANGE_STATE,
+  EDIT_PLAYER,
 } from './actions'
 
 export default function formReducer(state, action) {
@@ -15,9 +16,11 @@ export default function formReducer(state, action) {
     case CHANGE_NICKNAME:
       return { ...state, nickname: action.payload }
     case CHANGE_FACTION:
-      return { ...state, faction: action.payload }
+      return { ...state, faction: Number.parseInt(action.payload) }
     case CHANGE_STATE:
       return { ...state, state: action.payload }
+    case EDIT_PLAYER:
+      return { ...action.payload }
     default:
       throw new Error()
   }

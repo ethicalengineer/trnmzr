@@ -1,10 +1,12 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import PropTypes from 'prop-types'
+
 import TextField from '@material-ui/core/TextField'
-import factions from '../data/factions.json'
 import { makeStyles } from '@material-ui/core/styles'
-import formReducer from '../state/formReducer'
 import Button from '@material-ui/core/Button'
+
+import formReducer from '../state/formReducer'
+import factions from '../data/factions.json'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -14,58 +16,70 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function UserForm(props) {
+export default function UserForm({ addPlayer, editedPlayer }) {
   const classes = useStyles()
-  const formState = {
+
+  // Изначальное состояние формы игрока
+  const initialFormState = {
     name: '',
     surname: '',
     nickname: '',
     faction: 0,
-    state: true
-  }
-  
-  const [state, dispatch] = useReducer(formReducer, formState)
-  
-  const fieldChangeHandler = (event) => {
-    dispatch({type: `change-${event.target.id}`, payload: event.target.value})
-    console.log(state)
+    state: true,
   }
 
+  const [playerData, dispatch] = useReducer(formReducer, initialFormState)
+
+  useEffect(() => {
+    Object.keys(editedPlayer).length !== 0
+      ? dispatch({ type: 'edit-player', payload: editedPlayer })
+      : false
+  }, [editedPlayer])
+
+  // Меняем значение поля
+  const fieldChangeHandler = event => {
+    dispatch({ type: `change-${event.target.id}`, payload: event.target.value })
+  }
+
+  // Добавляем пользователя или редактируем
   const addUserHandler = () => {
-    props.addPlayer(state)
+    addPlayer(playerData, Object.keys(editedPlayer).length === 0 ? false : true)
   }
 
   return (
     <div className={classes.paper}>
       <form className={classes.root} noValidate autoComplete="off">
         <div>
-          <TextField 
-            value={state.name} 
-            onChange={fieldChangeHandler} 
-            id="name" 
-            label="Имя игрока" 
-            variant="outlined" />
+          <TextField
+            value={playerData.name}
+            onChange={fieldChangeHandler}
+            id="name"
+            label="Имя игрока"
+            variant="outlined"
+          />
         </div>
         <div>
-          <TextField 
-            value={state.surname} 
-            onChange={fieldChangeHandler} 
-            id="surname" 
-            label="Фамилия игрока" 
-            variant="outlined" />
+          <TextField
+            value={playerData.surname}
+            onChange={fieldChangeHandler}
+            id="surname"
+            label="Фамилия игрока"
+            variant="outlined"
+          />
         </div>
         <div>
-          <TextField 
-            value={state.nickname} 
-            onChange={fieldChangeHandler} 
-            id="nickname" 
-            label="Псевдоним" 
-            variant="outlined" />
+          <TextField
+            value={playerData.nickname}
+            onChange={fieldChangeHandler}
+            id="nickname"
+            label="Псевдоним"
+            variant="outlined"
+          />
         </div>
         <div>
           <TextField
             id="faction"
-            value={state.faction}
+            value={playerData.faction}
             select
             label="Фракция"
             onChange={fieldChangeHandler}
@@ -74,8 +88,7 @@ export default function UserForm(props) {
             }}
             variant="outlined"
           >
-            <option key='0' value='0'>Нет</option>
-            {factions.map((option) => (
+            {factions.map(option => (
               <option key={option.id} value={option.id}>
                 {option.value}
               </option>
@@ -83,10 +96,14 @@ export default function UserForm(props) {
           </TextField>
           <div>
             <Button variant="contained" color="secondary">
-            Secondary
+              Secondary
             </Button>
-            <Button onClick={addUserHandler} variant="contained" color="primary">
-            Primary
+            <Button
+              onClick={addUserHandler}
+              variant="contained"
+              color="primary"
+            >
+              Primary
             </Button>
           </div>
         </div>
@@ -96,5 +113,6 @@ export default function UserForm(props) {
 }
 
 UserForm.propTypes = {
-  addPlayer: PropTypes.func,
+  addPlayer: PropTypes.func.isRequired,
+  editedPlayer: PropTypes.object,
 }

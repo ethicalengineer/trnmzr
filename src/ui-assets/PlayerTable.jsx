@@ -14,6 +14,9 @@ import EditIcon from '@material-ui/icons/Edit'
 import { green } from '@material-ui/core/colors'
 import Tooltip from '@material-ui/core/Tooltip'
 import Chip from '@material-ui/core/Chip'
+import Avatar from '@material-ui/core/Avatar'
+
+import factions from '../data/factions.json'
 
 const useStyles = makeStyles({
   table: {
@@ -21,10 +24,10 @@ const useStyles = makeStyles({
   },
   tableWrapper: {
     marginBottom: 50,
-  }
+  },
 })
 
-export default function PlayerTable(props) {
+export default function PlayerTable({ players, deletePlayer, editPlayer }) {
   const classes = useStyles()
   return (
     <TableContainer className={classes.tableWrapper} component={Paper}>
@@ -39,24 +42,49 @@ export default function PlayerTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.players.map((player) => (
+          {players.map(player => (
             <TableRow key={player.id}>
               <TableCell component="th" scope="row">
                 {player.id}
               </TableCell>
               <TableCell component="th" scope="row">
-                {player.name}
+                {player.name ? player.name : ''}
+                {player.nickname ? player.nickname : ''}
+                {player.surname ? player.surname : ''}
               </TableCell>
-              <TableCell align="right">{player.faction}</TableCell>
-              <TableCell align="right">{player.state ? <Chip color="primary" label="Активен" /> : <Chip color="secondary" label="Выбыл" />}</TableCell>
+              <TableCell align="right">
+                <Chip
+                  avatar={
+                    <Avatar
+                      alt={factions[player.faction].value}
+                      src={`/images/${factions[player.faction].icon}`}
+                    />
+                  }
+                  label={factions[player.faction].value}
+                />
+              </TableCell>
+              <TableCell align="right">
+                {player.state ? (
+                  <Chip color="primary" label="Активен" />
+                ) : (
+                  <Chip color="secondary" label="Выбыл" />
+                )}
+              </TableCell>
               <TableCell align="right">
                 <Tooltip title="Редактировать">
-                  <IconButton aria-label="delete">
+                  <IconButton
+                    onClick={() => editPlayer(player.id)}
+                    aria-label="delete"
+                  >
                     <EditIcon style={{ color: green[500] }} fontSize="small" />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Удалить">
-                  <IconButton color="secondary" aria-label="delete">
+                  <IconButton
+                    onClick={() => deletePlayer(player.id)}
+                    color="secondary"
+                    aria-label="delete"
+                  >
                     <DeleteForeverIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
@@ -70,5 +98,7 @@ export default function PlayerTable(props) {
 }
 
 PlayerTable.propTypes = {
-  players: PropTypes.arrayOf(PropTypes.object)
+  players: PropTypes.arrayOf(PropTypes.object),
+  deletePlayer: PropTypes.func.isRequired,
+  editPlayer: PropTypes.func.isRequired,
 }

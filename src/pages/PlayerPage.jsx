@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add'
 import Modal from '@material-ui/core/Modal'
 import AppBar from '@material-ui/core/AppBar'
 import UserForm from '../ui-assets/UserForm'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -28,27 +29,57 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function PlayerPage() {
+export default function PlayerPage({ players, setPlayers }) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
-  const [players, setPlayers] = useState([])
+  const [editedPlayer, setEditedPlayer] = useState(Object)
 
   const handleOpen = () => {
     setOpen(true)
   }
-    
+
   const handleClose = () => {
     setOpen(false)
   }
 
-  const addPlayer = player => {
-    setPlayers([...players, player])
+  // Добавляем игрока в таблицу
+  const addPlayer = (player, edit) => {
+    if (edit) {
+      const changedPlayers = players.map(oldPlayer => {
+        if (oldPlayer.id === player.id) {
+          return {
+            ...player,
+          }
+        } else return oldPlayer
+      })
+      setPlayers([...changedPlayers])
+    } else {
+      player.id = players.length == 0 ? 1 : players[players.length - 1].id + 1
+      setPlayers([...players, player])
+    }
+    setEditedPlayer({})
     handleClose()
+  }
+
+  // Редактируем игрока
+  const editPlayer = id => {
+    setEditedPlayer(...players.filter(player => player.id == id))
+    console.log(players.filter(player => player.id == id))
+    handleOpen()
+  }
+
+  // Удаляем игрока из таблицы
+  const deletePlayer = id => {
+    setPlayers(players.filter(player => player.id !== id))
   }
 
   return (
     <React.Fragment>
-      <PlayerTable players={players}/>
+      <PlayerTable
+        players={players}
+        deletePlayer={deletePlayer}
+        editPlayer={editPlayer}
+      />
       <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
           <Button
@@ -56,11 +87,12 @@ export default function PlayerPage() {
             onClick={handleOpen}
             className={classes.button}
             startIcon={<AddIcon />}
-          >Добавить игрока</Button>
-          <Button 
-            variant="contained" 
-            className={classes.button}
-          >Начать турнир</Button>
+          >
+            Добавить игрока
+          </Button>
+          <Button variant="contained" className={classes.button}>
+            Начать турнир
+          </Button>
         </Toolbar>
       </AppBar>
       <Modal
@@ -71,8 +103,13 @@ export default function PlayerPage() {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <UserForm addPlayer={addPlayer} />
+        <UserForm addPlayer={addPlayer} editedPlayer={editedPlayer} />
       </Modal>
     </React.Fragment>
   )
+}
+
+PlayerPage.propTypes = {
+  players: PropTypes.arrayOf(PropTypes.object),
+  setPlayers: PropTypes.func,
 }
