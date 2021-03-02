@@ -36,7 +36,7 @@ export default function PlayerTable({ players, deletePlayer, editPlayer }) {
           <TableRow>
             <TableCell>№</TableCell>
             <TableCell>Имя игрока</TableCell>
-            <TableCell align="right">Банда</TableCell>
+            <TableCell align="right">Фракция</TableCell>
             <TableCell align="right">Статус</TableCell>
             <TableCell align="right">Действия</TableCell>
           </TableRow>
@@ -49,8 +49,8 @@ export default function PlayerTable({ players, deletePlayer, editPlayer }) {
               </TableCell>
               <TableCell component="th" scope="row">
                 {player.name ? player.name : ''}
-                {player.nickname ? player.nickname : ''}
-                {player.surname ? player.surname : ''}
+                {player.nickname ? ` '${player.nickname}'` : ''}
+                {player.surname ? ` ${player.surname}` : ''}
               </TableCell>
               <TableCell align="right">
                 <Chip
