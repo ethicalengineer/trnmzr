@@ -1,12 +1,12 @@
 import React from 'react'
-import PlayerPage from './pages/PlayerPage'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import TabPanel from './ui-assets/TabPanel'
+import TabContext from '@material-ui/lab/TabContext'
+import TabList from '@material-ui/lab/TabList'
+import TabPanel from '@material-ui/lab/TabPanel'
 
-//import mainReducer from './state/mainReducer'
+import PlayerPage from './pages/PlayerPage'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const classes = useStyles()
   const [players, setPlayers] = React.useState([])
-  const [activeTab, setActiveTab] = React.useState(0)
+  const [activeTab, setActiveTab] = React.useState('1')
 
   const handleChange = (event, newValue) => {
     setActiveTab(newValue)
@@ -26,22 +26,20 @@ export default function App() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={activeTab} onChange={handleChange}>
-          <Tab label="Игроки" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={activeTab} index={0}>
-        <PlayerPage players={players} setPlayers={setPlayers}></PlayerPage>
-      </TabPanel>
-      <TabPanel value={activeTab} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={activeTab} index={2}>
-        Item Three
-      </TabPanel>
+      <TabContext value={activeTab}>
+        <AppBar position="static">
+          <TabList onChange={handleChange} aria-label="simple tabs example">
+            <Tab label="Игроки" value="1" />
+            <Tab label="Item Two" value="2" />
+            <Tab label="Item Three" value="3" />
+          </TabList>
+        </AppBar>
+        <TabPanel value="1">
+          <PlayerPage players={players} setPlayers={setPlayers}></PlayerPage>
+        </TabPanel>
+        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="3">Item Three</TabPanel>
+      </TabContext>
     </div>
   )
 }

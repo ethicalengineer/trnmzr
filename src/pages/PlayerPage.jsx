@@ -90,7 +90,11 @@ export default function PlayerPage({ players, setPlayers }) {
           >
             Добавить игрока
           </Button>
-          <Button variant="contained" className={classes.button}>
+          <Button
+            disabled={players.length > 3 ? false : true}
+            variant="contained"
+            className={classes.button}
+          >
             Начать турнир
           </Button>
         </Toolbar>

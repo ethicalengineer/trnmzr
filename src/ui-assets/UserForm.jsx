@@ -30,6 +30,7 @@ export default function UserForm({ addPlayer, editedPlayer }) {
 
   const [playerData, dispatch] = useReducer(formReducer, initialFormState)
 
+  // При отрисовке компонента проверяем, изменение или создание. Если изменение – заполняем форму
   useEffect(() => {
     Object.keys(editedPlayer).length !== 0
       ? dispatch({ type: 'edit-player', payload: editedPlayer })
