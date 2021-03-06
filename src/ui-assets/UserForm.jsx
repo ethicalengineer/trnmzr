@@ -52,6 +52,7 @@ export default function UserForm({ addPlayer, editedPlayer }) {
       <form className={classes.root} noValidate autoComplete="off">
         <div>
           <TextField
+            autoFocus={true}
             value={playerData.name}
             onChange={fieldChangeHandler}
             id="name"

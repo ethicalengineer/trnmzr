@@ -6,6 +6,8 @@ import TabContext from '@material-ui/lab/TabContext'
 import TabList from '@material-ui/lab/TabList'
 import TabPanel from '@material-ui/lab/TabPanel'
 
+import tournamentReducer from './state/tournamentReducer'
+
 import PlayerPage from './pages/PlayerPage'
 
 const useStyles = makeStyles(theme => ({
@@ -19,6 +21,10 @@ export default function App() {
   const classes = useStyles()
   const [players, setPlayers] = React.useState([])
   const [activeTab, setActiveTab] = React.useState('1')
+  const [tournament, dispatch] = React.useReducer(
+    tournamentReducer,
+    initialTournamentState
+  )
 
   const handleChange = (event, newValue) => {
     setActiveTab(newValue)

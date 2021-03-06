@@ -7,7 +7,6 @@ extends:
   - 'eslint:recommended'
   - 'plugin:react/recommended'
   - 'prettier'
-  - 'prettier/react'
 parser: 'babel-eslint'
 parserOptions:
   ecmaFeatures:
